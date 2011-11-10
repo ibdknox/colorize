@@ -29,7 +29,7 @@
 
 (defmacro create-colors []
   (apply list 'do 
-         (for [k (keys ANSI-CODES)]
+         (for [k (keys ansi-colors)]
            (let [code (ansi k)
                  reset (ansi :reset)]
              `(defn ~(symbol (name k)) [& s#] 
