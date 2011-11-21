@@ -1,5 +1,6 @@
 (ns colorize.core
-  "A set of functions to wrap strings in ansi-colors.")
+  "A set of functions to wrap strings in ansi-colors."
+  (:use [clojure.pprint :only [pprint]]))
 
 (def ansi-colors {:reset "[0m"
                   :default "[39m"
@@ -41,6 +42,12 @@
   Each of these also has a function created for it: (cyan \"woohoo\")"
   [code & s]
   (str (ansi code) (apply str s) (ansi :reset)))
+
+(defn show-all []
+  (let [all-colors (apply juxt (for [cur (keys ansi-colors)]
+                                 (fn [input]
+                                   [cur (color cur input)])))]
+    (pprint (into (sorted-map) (all-colors "test")))))
 
 (defmacro create-colors []
   (apply list 'do 
